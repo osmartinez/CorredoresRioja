@@ -1,0 +1,6 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+corredores:
+    resource: '../CorredoresRioja/Resources/routing/'
+    type: directory

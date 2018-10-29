@@ -1,0 +1,6 @@
+## YAML Template.
+---
+    
+info_organizacion:
+    path: /corredores/organizacion/slug
+    controller: App\CorredoresRioja\Application\Controller\OrganizacionController::info

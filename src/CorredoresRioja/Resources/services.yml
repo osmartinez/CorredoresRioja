@@ -1,0 +1,15 @@
+## YAML Template.
+---
+services:
+    App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoCorredor: ~
+    App\CorredoresRioja\Domain\Repository\RepoCorredor:   
+                     '@App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoCorredor'
+    App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoCarrera: ~
+    App\CorredoresRioja\Domain\Repository\RepoCarrera:   
+                     '@App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoCarrera'
+    App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoOrganizacion: ~
+    App\CorredoresRioja\Domain\Repository\RepoOrganizacion:   
+                     '@App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoOrganizacion'
+    App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoParticipante: ~
+    App\CorredoresRioja\Domain\Repository\RepoParticipante:   
+                     '@App\CorredoresRioja\Infrastructure\Repository\EnMemoriaRepoParticipante'
