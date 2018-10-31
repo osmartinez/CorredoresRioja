@@ -36,6 +36,7 @@ class Carrera {
         $this->numeroMaximoParticipantes = $numeroMaximoParticipantes;
         $this->imagen = $imagen;
         $this->organizacion = $organizacion;
+        $this->slug= \App\CorredoresRioja\Utils\Utils::getSlug($nombre);
     }
     
     function getId() {

@@ -1,6 +1,14 @@
-## YAML Template.
-
+carreras:
+    path: 
+        /carreras
+    controller: App\CorredoresRioja\Application\Controller\CarreraController:showAllCarreras
     
-    
+carrera:
+    path: 
+        /carrera/{slug}
+    controller: App\CorredoresRioja\Application\Controller\CarreraController:showCarrera
 
-
+organizacion:
+    path: 
+        /organizacion/{slug}
+    controller: App\CorredoresRioja\Application\Controller\CarreraController:infoOrganizacion

@@ -16,6 +16,7 @@ namespace App\CorredoresRioja\Infrastructure\Repository;
 
 use App\CorredoresRioja\Domain\Repository\RepoParticipante;
 use \App\CorredoresRioja\Domain\Model\Corredor;
+use \App\CorredoresRioja\Domain\Model\Organizacion;
 use \App\CorredoresRioja\Domain\Model\Carrera;
 use App\CorredoresRioja\Domain\Model\Participante;
 

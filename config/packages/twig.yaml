@@ -1,4 +1,5 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
+    paths:
+        'src/CorredoresRioja/Resources/views' : 'corredores'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'

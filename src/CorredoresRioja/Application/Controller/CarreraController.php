@@ -8,32 +8,60 @@
 
 namespace App\CorredoresRioja\Application\Controller;
 
+use App\CorredoresRioja\Domain\Repository\RepoCarrera;
+use App\CorredoresRioja\Domain\Repository\RepoOrganizacion;
+use Symfony\Component\HttpFoundation\Response;
+use Twig_Environment;
+use App\CorredoresRioja\Domain\Repository\RepoCorredor;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\CorredoresRioja\Domain\Repository\RepoParticipante;
+
 /**
  * Description of CarreraController
  *
  * @author oscar
  */
-use App\CorredoresRioja\Domain\Repository\RepoCarrera;
-use Symfony\Component\HttpFoundation\Response;
-class CarreraController {
 
-    //put your code here
+class CarreraController extends AbstractController {
 
-    private $repoCarrera;
+    private $carrerasRepository;
+    private $organizacionesRepository;
+    private $corredoresRepository;
+    private $twig;
+    private $participantesRepository;
 
-    public function __construct(RepoCarrera $repo) {
-        $this->repoCarrera = $repo;
+    function __construct(RepoParticipante $participantesRepository, RepoCarrera $carrerasRepository, RepoOrganizacion $organizacionesRepository, Twig_Environment $twig,RepoCorredor $corredoresRepository) {
+        $this->carrerasRepository = $carrerasRepository;
+        $this->organizacionesRepository = $organizacionesRepository;
+        $this->twig = $twig;
+        $this->corredoresRepository = $corredoresRepository;
+        $this->participantesRepository = $participantesRepository;
     }
 
-    public function showSinDisputar() {
-        return new Response(implode("<br/>", $this->repoCarrera->listarCarrerasSinDisputar()));
-    }
-    
-    public function infoCarrera($slug){
-        return new Response (implode ("<br/>",$this->repoCarrera->buscarCarreraPorSlug($slug)));
+    function index() {
+        $carreras = $this->carrerasRepository->listarCarreras();
+        return new Response('Bienvenido.<br/> Carreras por disputar:<br/> ' . implode("<br/>", $carreras));
     }
 
-    public function showCarreras() {
-        return new Response(implode("<br/>", $this->repoCarrera->listarCarreras()));
+    function showCarrera($slug) {
+        $carrera = $this->carrerasRepository->buscarCarreraPorSlug($slug);
+//        return new Response($this->twig->render('@corredores/carrera.html.twig', array('carrera' => $carrera)));
+        return $this->render('@corredores/carrera.html.twig', array('carrera' => $carrera));
     }
+
+    function showAllCarreras() {
+
+        $carrerasDisputadas = $this->carrerasRepository->listarCarrerasDisputadas();
+        $carrerasPorDisputar = $this->carrerasRepository->listarCarrerasSinDisputar();
+        return new Response($this->twig->render('@corredores/carreras.html.twig', array('carreraspordisputar' => $carrerasPorDisputar, 'carrerasdisputadas' => $carrerasDisputadas)));
+    }
+
+    function infoOrganizacion($slug) {
+        $organizacion = $this->organizacionesRepository->buscarOrganizacionPorSlug($slug);
+        return new Response($this->twig->render('@corredores/organizacion.html.twig', array('organizacion' => $organizacion)));
+    }
+
+
+
 }

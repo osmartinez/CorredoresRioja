@@ -49,7 +49,7 @@ class EnMemoriaRepoOrganizacion implements RepoOrganizacion {
     public function buscarOrganizacionPorSlug($slug) {
         foreach ($this->organizaciones as $o) {
             if ($o->getSlug() === $slug) {
-                return $org;
+                return $o;
             }
         }
         return NULL;
