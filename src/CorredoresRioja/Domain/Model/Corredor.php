@@ -11,10 +11,13 @@
  *
  * @author oscar
  */
+
 namespace App\CorredoresRioja\Domain\Model;
+use Symfony\Component\Validator\Constraints as Assert;
 class Corredor {
+
     //put your code here
-    private  $dni;
+    private $dni;
     private $nombre;
     private $apellidos;
     private $email;
@@ -22,17 +25,18 @@ class Corredor {
     private $salt;
     private $direccion;
     private $fechaNacimiento;
-    public function __construct($dni,$nombre,$apellidos,$email,$password,$direc,$fecha) {
-        $this->dni=$dni;
-        $this->nombre=$nombre;
-        $this->apellidos=$apellidos;
-        $this->email=$email;
-        $this->password=$password;
-        $this->direccion=$direc;
-        $this->fechaNacimiento=$fecha;
+
+    public function __construct($dni, $nombre, $apellidos, $email, $password, $direc, $fecha) {
+        $this->dni = $dni;
+        $this->nombre = $nombre;
+        $this->apellidos = $apellidos;
+        $this->email = $email;
+        $this->password = $password;
+        $this->direccion = $direc;
+        $this->fechaNacimiento = $fecha;
         $this->salt = "";
     }
-    
+
     function getDni() {
         return $this->dni;
     }
@@ -65,9 +69,29 @@ class Corredor {
         return $this->fechaNacimiento;
     }
 
-        
-    function __toString() {
-        return $this->nombre+ " "+$this->apellidos;
+    /**
+     * @Assert\IsTrue(message = "La contraseña no puede ser la misma que tu nombre")
+     */
+    public function isPasswordLegal() {
+        return $this->nombre != $this->password;
+    }
+
+    /**
+     * @Assert\IsTrue(message = "Tienes que ser mayor de edad para registrarte")
+     */
+    public function isMayorEdad() {
+        $currentyear = getdate()['year'];
+        $birthdayyear = ($this->fechaNacimiento->format('Y'));
+        $diff_years = ($currentyear - $birthdayyear);
+        return $diff_years >= 18;
+    }
+
+    public function saveEncodedPassword($password){
+        $this->password=$password;
     }
     
+    function __toString() {
+        return $this->nombre + " " + $this->apellidos;
+    }
+
 }

@@ -12,19 +12,19 @@
 <li>
 <a href="{{ path('index') }}">Mis carreras<br/></a>
 </li>
-{#
+
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}   
 <li>
 <a href="{{ path('perfil') }}">{{ 'menu.perfil' | trans }}<br/></a>
 </li>   
 <li>
-<a href="{{ path('corredor_logout') }}">Logout<br/></a>
+<a href="{{ path('logout') }}">Logout<br/></a>
 </li>
 {% else %}    
 <li>
 <a href="{{ path('corredor_login') }}">Login<br/></a>
 </li>
 {% endif %}
-#}</ul>
+</ul>
 
 {% endblock %}

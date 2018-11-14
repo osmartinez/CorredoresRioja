@@ -1,0 +1,28 @@
+{% extends '@corredores/zonacorredores.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/entrada.css')}}" rel="stylesheet" media="all" type="text/css">
+{% endblock %}
+
+
+{% block contenido %}
+    <div class="clear"> </div>   
+    
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<form action="{{ path('corredor_login') }}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" />
+    <button type="submit">log in</button>
+    <br>
+    <p>O <a href="/corredores/registro">regístrate</a> si no lo has hecho ya</p>
+</form>	     
+    <div class="clear"> </div>   
+{% endblock %} 
