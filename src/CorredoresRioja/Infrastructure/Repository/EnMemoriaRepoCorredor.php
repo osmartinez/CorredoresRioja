@@ -40,7 +40,7 @@ class EnMemoriaRepoCorredor implements RepoCorredor {
     public function buscarCorredor($dni) {
         foreach ($this->corredores as $c) {
             if ($c->getDni() == $dni) {
-                return $corredor;
+                return $c;
             }
         }
         return NULL;

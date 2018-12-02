@@ -25,9 +25,19 @@ class EnMemoriaRepoCarrera implements RepoCarrera {
 
     public function __construct() {
         $matuteOrg = new Organizacion(1, "Matute", "Pueblo Matute", "matute@gmail.com", 12345);
-        $this->carreras[] = new Carrera(1, "Matutrail", "Carrera Montes Matute", new \DateTime("2018-12-8"), 21, new \DateTime("2018-10-9"), 500, "matutrail.jpg", $matuteOrg);
+        $this->carreras[] = new Carrera(1, "Matutrail", "Carrera Montes Matute", new \DateTime("2018-10-10"), 21, new \DateTime("2018-10-9"), 500, "matutrail.jpg", $matuteOrg);
         $urOrg = new Organizacion(2, "UR", "Servicio deportes UR", "deportes@unirioja.es", 123456);
-        $this->carreras[] = new Carrera(2, "Carrera UR", "Carrera UR", new \DateTime("2018-12-12"), 10, new \DateTime("2018-5-4"), 1000, "ur.png", $urOrg);
+        $this->carreras[] = new Carrera(2, "Carrera UR", "Carrera UR", new \DateTime("2019-5-5"), 10, new \DateTime("2019-5-4"), 1000, "ur.png", $urOrg);
+        $this->carreras[] = new Carrera(3, "CarreraOscar", "Carrera Montes Matute", new \DateTime("2019-12-12"), 21, new \DateTime("2019-10-9"), 500, "matutrail.jpg", $matuteOrg);
+    }
+
+    public function buscarCarreraPorId($id) {
+        foreach ($this->carreras as $c) {
+            if ($c->getId() == $id) {
+                return $c;
+            }
+        }
+        return NULL;
     }
 
     public function actualizarCarrera(Carrera $carrera) {

@@ -7,5 +7,6 @@ principal:
 corredores:
     resource: '../src/CorredoresRioja/Resources/routing/routes_corredor.yaml'
     prefix: 
-        /corredores
+        en: /runners
+        es: /corredores
     

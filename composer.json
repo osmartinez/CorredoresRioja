@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.6",
+        "sonata-project/admin-bundle": "^3.41",
         "symfony/asset": "*",
         "symfony/console": "*",
         "symfony/flex": "^1.1",
@@ -13,6 +14,7 @@
         "symfony/framework-bundle": "*",
         "symfony/security-bundle": "*",
         "symfony/security-core": "*",
+        "symfony/translation": "4.1.*",
         "symfony/twig-bundle": "*",
         "symfony/validator": "*",
         "symfony/yaml": "*"
@@ -62,7 +64,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "4.1.*"
         }
     }

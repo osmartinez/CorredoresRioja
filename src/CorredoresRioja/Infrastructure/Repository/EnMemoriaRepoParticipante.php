@@ -30,9 +30,13 @@ class EnMemoriaRepoParticipante implements RepoParticipante {
         $this->corredores[] = new Corredor(1, "Pepe", "Perez", "pepe.perez@gmail.com", '1234', "C. Falsa", new \DateTime("15-08-1985"));
         $this->corredores[] = new Corredor(2, "Maria", "Lopez", "maria.lopez@gmail.com", '5678', "C. Falsa", new \DateTime("10-08-1985"));
         $matuteOrg = new Organizacion(1, "Matute", "Pueblo Matute", "matute@gmail.com", 12345);
+        
         $this->carreras[] = new Carrera(1, "Matutrail", "Carrera Montes Matute", new \DateTime("2018-10-10"), 21, new \DateTime("2018-10-9"), 500, "matutrail.jpg", $matuteOrg);
         $urOrg = new Organizacion(2, "UR", "Servicio deportes UR", "deportes@unirioja.es", 123456);
-        $this->carreras[] = new Carrera(2, "Carrera UR", "Carrera UR", new \DateTime("2018-5-5"), 10, new \DateTime("2018-5-4"), 1000, "ur.png", $urOrg);
+        $this->carreras[] = new Carrera(2, "Carrera UR", "Carrera UR", new \DateTime("2019-5-5"), 10, new \DateTime("2019-5-4"), 1000, "ur.png", $urOrg);
+        $this->carreras[] = new Carrera(3, "CarreraOscar", "Carrera Montes Matute", new \DateTime("2019-12-12"), 21, new \DateTime("2019-10-9"), 500, "matutrail.jpg", $matuteOrg);
+
+        $this->participantes[] = new Participante($this->corredores[0], $this->carreras[2], 1);
         $this->participantes[] = new Participante($this->corredores[0], $this->carreras[0], 1);
         $this->participantes[] = new Participante($this->corredores[0], $this->carreras[1], 100);
         $this->participantes[] = new Participante($this->corredores[1], $this->carreras[1], 150);
@@ -56,11 +60,29 @@ class EnMemoriaRepoParticipante implements RepoParticipante {
     }
 
     public function listarCarrerasDisputadasDeCorredor(Corredor $corredor) {
-        
+        $disputadas = [];
+        foreach ($this->participantes as $p) {
+            if ($p->getCorredor()->getDni() == $corredor->getDni()) {
+                if ($p->getCarrera()->getFechaCelebracion() < new \DateTime("now")) {
+                    $disputadas[] = $p->getCarrera();
+                }
+            }
+        }
+
+        return $disputadas;
     }
 
     public function listarCarrerasSinDisputarDeCorredor(Corredor $corredor) {
-        
+        $sindisp = [];
+        foreach ($this->participantes as $p) {
+            if ($p->getCorredor()->getDni() == $corredor->getDni()) {
+                if ($p->getCarrera()->getFechaCelebracion() > new \DateTime("now")) {
+                    $sindisp[] = $p->getCarrera();
+                }
+            }
+        }
+
+        return $sindisp;
     }
 
     public function listarParticipantes(Carrera $carrera) {

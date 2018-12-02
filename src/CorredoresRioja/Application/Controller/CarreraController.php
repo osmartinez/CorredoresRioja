@@ -39,7 +39,8 @@ class CarreraController extends AbstractController {
     private $participantesRepository;
     private $encoder;
     private $session;
-    function __construct(RepoParticipante $participantesRepository, RepoCarrera $carrerasRepository, RepoOrganizacion $organizacionesRepository,UrlGeneratorInterface $router, Twig_Environment $twig,UserPasswordEncoderInterface $encoder,SessionInterface $session, RepoCorredor $corredoresRepository) {
+
+    function __construct(RepoParticipante $participantesRepository, RepoCarrera $carrerasRepository, RepoOrganizacion $organizacionesRepository, UrlGeneratorInterface $router, Twig_Environment $twig, UserPasswordEncoderInterface $encoder, SessionInterface $session, RepoCorredor $corredoresRepository) {
         $this->carrerasRepository = $carrerasRepository;
         $this->organizacionesRepository = $organizacionesRepository;
         $this->twig = $twig;
@@ -62,7 +63,6 @@ class CarreraController extends AbstractController {
     }
 
     function showAllCarreras() {
-
         $carrerasDisputadas = $this->carrerasRepository->listarCarrerasDisputadas();
         $carrerasPorDisputar = $this->carrerasRepository->listarCarrerasSinDisputar();
         return new Response($this->twig->render('@corredores/carreras.html.twig', array('carreraspordisputar' => $carrerasPorDisputar, 'carrerasdisputadas' => $carrerasDisputadas)));
@@ -97,6 +97,68 @@ class CarreraController extends AbstractController {
         return $this->render("@corredores/registro.html.twig", array('formulario' => $form->createView()));
     }
 
+    public function miscarreras() {
+        $user = $this->getUser();
+        if ($user == NULL) {
+            return $this->render(
+                            '@corredores/login.html.twig', array(
+                        // last username entered by the user
+                        'last_username' => "",
+                        'error' => "",
+                            )
+            );
+        }
+        $corredor = $this->corredoresRepository->buscarCorredor($user->getUsername());
+        $carrerasDisputadas = $this->participantesRepository->listarCarrerasDisputadasDeCorredor($corredor);
+        $carrerasPorDisputar = $this->participantesRepository->listarCarrerasSinDisputarDeCorredor($corredor);
+        return new Response($this->twig->render('@corredores/miscarreras.html.twig', array('carreraspordisputar' => $carrerasPorDisputar, 'carrerasdisputadas' => $carrerasDisputadas)));
+    }
+
+    public function inscribirse($carreraid) {
+        $user = $this->getUser();
+        if ($user == NULL) {
+            return $this->render(
+                            '@corredores/login.html.twig', array(
+                        // last username entered by the user
+                        'last_username' => "",
+                        'error' => "",
+                            )
+            );
+        }
+        $corredor = $this->corredoresRepository->buscarCorredor($user->getUsername());
+        $carrera = $this->carrerasRepository->buscarCarreraPorId($carreraid);
+        $this->participantesRepository->inscribirCorredor($corredor, $carrera);
+
+        $carrerasDisputadas = $this->participantesRepository->listarCarrerasDisputadasDeCorredor($corredor);
+        $carrerasPorDisputar = $this->participantesRepository->listarCarrerasSinDisputarDeCorredor($corredor);
+        return new Response($this->twig->render('@corredores/miscarreras.html.twig', array('carreraspordisputar' => $carrerasPorDisputar, 'carrerasdisputadas' => $carrerasDisputadas)));
+    }
+
+    public function perfil(Request $peticion) {
+        $user = $this->getUser();
+
+        $corredor = $this->corredoresRepository->buscarCorredor($user->getUsername());
+        $form = $this->createForm(CorredorType::class, $corredor);
+        $form->handleRequest($peticion);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Recogemos el corredor que se ha registrado
+            $corredor = $form->getData();
+            $corredorUser = new CorredorUser("", "", "");
+            // Codificamos la contraseña del corredor
+            $password = $this->encoder->encodePassword($corredorUser, $corredor->getPassword());
+            $corredor->saveEncodedPassword($password);
+            // Lo almacenamos en nuestro repositorio de corredores
+            $this->corredoresRepository->actualizarCorredor($corredor);
+            //$this->corredoresRepository->registrarCorredor($corredor);
+            // Creamos un mensaje flash para mostrar al usuario que 
+            // se ha registrado correctamente
+            $this->session->getFlashBag()->add('info', $corredor->getNombre() . ' has modificado tu perfil!');
+            // Reedirigimos al usuario a la portada 
+            return $this->redirect($this->router->generate('index'));
+        }
+        return $this->render("@corredores/miperfil.html.twig", array('formulario' => $form->createView()));
+    }
+
     public function login(AuthenticationUtils $authenticationUtils) {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -111,6 +173,11 @@ class CarreraController extends AbstractController {
                     'error' => $error,
                         )
         );
+    }
+
+    public function redirigirALogin() {
+        return $this->render(
+                        '@corredores/login.html.twig');
     }
 
 }

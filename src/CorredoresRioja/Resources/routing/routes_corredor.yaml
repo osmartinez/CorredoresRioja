@@ -1,25 +1,61 @@
 carreras:
     path: 
-        /carreras
+        es: /carreras
+        en: /races
     controller: App\CorredoresRioja\Application\Controller\CarreraController:showAllCarreras
-    
+    requirements:
+       _locale: en|es    
+       
 carrera:
     path: 
-        /carrera/{slug}
+        es: /carrera/{slug}
+        en: /race/{slug}
     controller: App\CorredoresRioja\Application\Controller\CarreraController:showCarrera
-
+    requirements:
+       _locale: en|es
+       
 organizacion:
     path: 
-        /organizacion/{slug}
+        es: /organizacion/{slug}
+        en: /organisation/{slug}
     controller: App\CorredoresRioja\Application\Controller\CarreraController:infoOrganizacion
-
+    requirements:
+       _locale: en|es
+       
 registro:
-    path: /registro
+    path: 
+        es: /registro
+        en: /signup
     controller:  App\CorredoresRioja\Application\Controller\CarreraController:registro
-    
+    requirements:
+       _locale: en|es
+       
 corredor_login:
     path: /login
     controller: App\CorredoresRioja\Application\Controller\CarreraController:login
-
-corredor_logout:
-    path: /logout
+    requirements:
+       _locale: en|es
+       
+corredor_perfil:
+    path: 
+        es: /miperfil
+        en: /myprofile
+    controller: App\CorredoresRioja\Application\Controller\CarreraController:perfil
+    requirements:
+       _locale: en|es
+       
+corredor_carreras:
+    path: 
+        es: /miscarreras
+        en: /myraces
+    controller: App\CorredoresRioja\Application\Controller\CarreraController:miscarreras
+    requirements:
+       _locale: en|es
+       
+corredor_inscribirse:
+    path: 
+        es: /inscribirse/{carreraid}
+        en: /enroll/{carreraid}
+    controller: App\CorredoresRioja\Application\Controller\CarreraController:inscribirse
+    requirements:
+       _locale: en|es

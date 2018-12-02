@@ -9,18 +9,19 @@
         </div>
         <div class="parteCelda2">
             <p> {{ carrera.descripcion }}</p>
-            <p> Fecha celebración: {{ carrera.fechaCelebracion | date }} </p>
-            <p> Distancia: {{ carrera.distancia }}</p>
-            <p> Organiza: <a href="{{ path('organizacion', { 'slug' : carrera.organizacion.slug } ) }}">
+            <p> {{'Fecha celebración'| trans}}: {{ carrera.fechaCelebracion | date }} </p>
+            <p> {{'Distancia'| trans}}: {{ carrera.distancia }}</p>
+            <p>{{ 'Organiza'| trans}}: <a href="{{ path('organizacion', { 'slug' : carrera.organizacion.slug } ) }}">
                     {{ carrera.organizacion.nombre }}</a></p>
             <div class="clear"></div>
         </div>
     </div>
             <div class="izquierda">
             {% if date(carrera.fechaLimiteInscripcion) > date('now') %}
-                <h3> Tienes hasta el {{ carrera.fechaLimiteInscripcion | date('d \\d\\e M \\d\\e Y') }} para inscribirte </h3>
-            {% else %}
-                <h3> Lo sentimos ya no te puedes inscribir en esta carrera </h3>    
+                <h3> Tienes hasta el {{ carrera.fechaLimiteInscripcion | date('d \\d\\e M \\d\\e Y') }} para <a href="{{ path('corredor_inscribirse',{'carreraid':carrera.id}) }}">
+                    inscribirte</a>  </h3>
+               {% else %}
+                <h3>{{ 'Lo sentimos ya no te puedes inscribir en esta carrera'| trans}} </h3>    
             {% endif %}
         </div>
 {% endblock %}

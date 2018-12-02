@@ -21,6 +21,9 @@ security:
             form_login:
                 login_path: corredor_login
                 check_path: corredor_login
+            logout:
+                path: logout
+                target: index
 
             # activate different ways to authenticate
 
@@ -36,6 +39,6 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         # require ROLE_ADMIN for /admin*
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/login roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(es|en)/admin, roles: ROLE_ADMIN }
+        - { path: ^/(es|en)/login roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
